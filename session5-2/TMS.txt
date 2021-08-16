@@ -1,0 +1,14 @@
+Tell: A > B
+Tell: C > D
+Tell: A
+Tell: C + B > E
+Tell: E + D > F
+Tell: C
+Tell: A > W
+Retract: C
+Tell: A + C > D
+Tell: D
+Tell: B + G > E
+Tell: G
+Tell: Z
+Retract: A
