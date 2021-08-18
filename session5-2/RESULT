@@ -1,0 +1,25 @@
+After Telling A, Knowledge is: {'A'}
+After Telling B, Knowledge is: {'B', 'A'}
+After Telling W, Knowledge is: {'B', 'A', 'W'}
+After Telling C, Knowledge is: {'B', 'A', 'W', 'C'}
+After Telling D, Knowledge is: {'C', 'D', 'B', 'A', 'W'}
+After Telling E, Knowledge is: {'C', 'D', 'B', 'A', 'E', 'W'}
+After Telling F, Knowledge is: {'C', 'D', 'B', 'A', 'E', 'W', 'F'}
+After Telling D, Knowledge is: {'C', 'D', 'B', 'A', 'E', 'W', 'F'}
+After Telling F, Knowledge is: {'C', 'D', 'B', 'A', 'E', 'W', 'F'}
+After Retracting C, Knowledge is: {'D', 'B', 'A', 'E', 'W', 'F'}
+After Retracting D, Knowledge is: {'B', 'A', 'E', 'W', 'F'}
+After Retracting F, Knowledge is: {'B', 'A', 'E', 'W'}
+After Retracting E, Knowledge is: {'B', 'A', 'W'}
+After Telling D, Knowledge is: {'D', 'B', 'A', 'W'}
+After Telling G, Knowledge is: {'D', 'B', 'A', 'G', 'W'}
+After Telling E, Knowledge is: {'D', 'B', 'A', 'G', 'E', 'W'}
+After Telling F, Knowledge is: {'D', 'B', 'A', 'G', 'E', 'W', 'F'}
+After Telling Z, Knowledge is: {'Z', 'D', 'B', 'A', 'G', 'E', 'W', 'F'}
+After Retracting A, Knowledge is: {'Z', 'D', 'B', 'G', 'E', 'W', 'F'}
+After Retracting B, Knowledge is: {'Z', 'D', 'G', 'E', 'W', 'F'}
+After Retracting E, Knowledge is: {'Z', 'D', 'G', 'W', 'F'}
+After Retracting F, Knowledge is: {'Z', 'D', 'G', 'W'}
+After Retracting W, Knowledge is: {'Z', 'D', 'G'}
+After Retracting D, Knowledge is: {'Z', 'G'}
+Final Knowledge Secured : {'Z', 'G'}

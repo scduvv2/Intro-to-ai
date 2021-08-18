@@ -5,7 +5,8 @@ Created on Wed Feb  3 17:47:21 2021
 @author: cflynch
 """
 
-
+import sys
+import csv
 
 class Knowledge(object):
     """
@@ -47,7 +48,7 @@ class Fact(Knowledge):
     It stores the contents of the fact and the source of it.
     """
     
-    def __init__(self, Content Justification):
+    def __init__(self, Content, Justification):
         """
         Initialize the fact in memory with at least one 
         justification which will be held on for use.
@@ -101,9 +102,51 @@ class Rule(Knowledge):
     def known(self, KB):
         pass
     
-    
-    
-    
+def create_knowledge(DataRows):
+    print('printing data rows: ',DataRows)    
+    rules=[] 
+    facts=[]
+    i=0
+    for data in DataRows:
+     
+        # this is a rule. let us create a rule
+        stringLets = data.split(' ')
+        if stringLets[0] == 'Tell:' and '>' in data:
+            # this is a tell rule create a tell rule
+            for i in range(len(stringLets)):
+                if '>' == stringLets[i]:
+                    lhs = stringLets[i-1].split('+')                    
+                    rhs = stringLets[i+1]                    
+                    break
+            rule = Rule(lhs,rhs,stringLets[0])
+            rules.append(rule)
+        elif stringLets[0] == 'Tell:' and '>' not in data:
+            # this is a fact and create a fact
+            lhs = stringLets[1]
+            justification = stringLets[0]
+            fact = Fact(lhs,justification)
+            facts.append(fact)
+        elif stringLets[0] == 'Retract:' and '>' not in data:
+            # this is a fact and create a fact
+            lhs = stringLets[1]
+            justification = stringLets[0]
+            fact = Fact(lhs,justification)    
+            facts.append(fact)
     # Load a file.
     # Iterate over the file;
     #   For an add
+    print(facts)
+    print(rules)
+
+def main():
+    fileName = sys.argv[1]
+    DataRows =[]
+    
+    
+    with open(fileName, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+      
+        for row in reader:
+            DataRows.append(row[0])
+    create_knowledge(DataRows)   
+main()    
