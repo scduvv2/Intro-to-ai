@@ -132,8 +132,8 @@ def create_knowledge(DataRows):
 
             if lhs not in knowledge:
                 knowledge.append(lhs)
-                print(knowledge)
-            executeRulesAndUpdateKnowledgeForTell(knowledge,rules,lhs)
+                print('due to the fact ',fact.Justification,'-',fact.Content,':',knowledge)
+            executeRulesAndUpdateKnowledgeForTell(knowledge,rules,fact)
         elif stringLets[0] == 'Retract:' and '>' not in data:
             # this is a fact and create a fact
             lhs = stringLets[1]
@@ -141,16 +141,16 @@ def create_knowledge(DataRows):
             fact = Fact(lhs,justification)    
             facts.append(fact)
             knowledge.remove(lhs)
-            print(knowledge)
-            executeRulesAndUpdateKnowledgeForRetract(knowledge,rules,lhs)
+            print('due to the fact ',fact.Justification,'-',fact.Content,':',knowledge)
+            executeRulesAndUpdateKnowledgeForRetract(knowledge,rules,fact)
 
 
-def executeRulesAndUpdateKnowledgeForTell(knowldge,rules,lhs):
+def executeRulesAndUpdateKnowledgeForTell(knowldge,rules,fact):
 
     for rule in rules:
         if is_LHS_in_Knowledge(rule.LHS,knowldge) and rule.RHS not in knowldge:
             knowldge.append(rule.RHS)
-    print(knowldge)
+    print('due to the fact ',fact.Justification,'-',fact.Content,':',knowldge)
     pass
 
 def is_LHS_in_Knowledge(s,l):
@@ -164,15 +164,15 @@ def executeRulesAndUpdateKnowledgeForRule(knowldge,rules,rule):
         for rule_in_list in rules:
             if is_LHS_in_Knowledge(rule_in_list.LHS,knowldge) and rule.RHS not in knowldge:
                  knowldge.append(rule.RHS)
-        print(knowldge)    
+        print('due to the rule ',rule.Justification,'-',rule.LHS,':',knowldge)
 
 
-def executeRulesAndUpdateKnowledgeForRetract(knowldge,rules,lhs):
+def executeRulesAndUpdateKnowledgeForRetract(knowldge,rules,fact):
 
     for rule in rules:
-        if lhs in rule.LHS:
+        if fact.Content in rule.LHS:
             knowldge.remove(rule.RHS)
-    print(knowldge)
+    print('due to the fact ',fact.Justification,'-',fact.Content,':',knowldge)
     pass
 
 def main():
