@@ -104,6 +104,7 @@ class Rule(Knowledge):
     
 def create_knowledge(DataRows):
     print('printing data rows: ',DataRows)    
+    knowledge =[]
     rules=[] 
     facts=[]
     i=0
@@ -120,23 +121,59 @@ def create_knowledge(DataRows):
                     break
             rule = Rule(lhs,rhs,stringLets[0])
             rules.append(rule)
+            if lhs in knowledge:
+                executeRulesAndUpdateKnowledgeForRule(knowledge,rules,rule)
         elif stringLets[0] == 'Tell:' and '>' not in data:
             # this is a fact and create a fact
             lhs = stringLets[1]
             justification = stringLets[0]
             fact = Fact(lhs,justification)
             facts.append(fact)
+
+            if lhs not in knowledge:
+                knowledge.append(lhs)
+                print(knowledge)
+            executeRulesAndUpdateKnowledgeForTell(knowledge,rules,lhs)
         elif stringLets[0] == 'Retract:' and '>' not in data:
             # this is a fact and create a fact
             lhs = stringLets[1]
             justification = stringLets[0]
             fact = Fact(lhs,justification)    
             facts.append(fact)
-    # Load a file.
-    # Iterate over the file;
-    #   For an add
-    print(facts)
-    print(rules)
+            knowledge.remove(lhs)
+            print(knowledge)
+            executeRulesAndUpdateKnowledgeForRetract(knowledge,rules,lhs)
+
+
+def executeRulesAndUpdateKnowledgeForTell(knowldge,rules,lhs):
+
+    for rule in rules:
+        if is_LHS_in_Knowledge(rule.LHS,knowldge) and rule.RHS not in knowldge:
+            knowldge.append(rule.RHS)
+    print(knowldge)
+    pass
+
+def is_LHS_in_Knowledge(s,l):
+    len_s = len(s) #so we don't recompute length of s on every iteration
+    return any(s == l[i:len_s+i] for i in range(len(l) - len_s+1))
+
+def executeRulesAndUpdateKnowledgeForRule(knowldge,rules,rule):
+        if is_LHS_in_Knowledge(rule.LHS,knowldge):
+            knowldge.append(rule.RHS)
+
+        for rule_in_list in rules:
+            if is_LHS_in_Knowledge(rule_in_list.LHS,knowldge) and rule.RHS not in knowldge:
+                 knowldge.append(rule.RHS)
+        print(knowldge)    
+
+
+def executeRulesAndUpdateKnowledgeForRetract(knowldge,rules,lhs):
+
+    for rule in rules:
+        if lhs in rule.LHS:
+            knowldge.remove(rule.RHS)
+    print(knowldge)
+    pass
 
 def main():
     fileName = sys.argv[1]
