@@ -20,10 +20,10 @@ from pgmpy.factors.discrete import TabularCPD
 # as well as the parents of each variable.  Thus we
 # specify "Burglary" as the variable and its parent "Alarm"
 
-alarm_model = BayesianModel([('Burglary', 'Alarm'),
-                             ('Earthquake', 'Alarm'),
-                             ('Alarm', 'JohnCalls'),
-                             ('Alarm', 'MaryCalls')])
+alarm_model = BayesianModel([('Exercise', 'BP'),
+                             ('Smokes', 'BP'),
+                             ('Smokes', 'Chol'),
+                             ('BP', 'Attack')])
 
 
 
@@ -40,13 +40,13 @@ alarm_model = BayesianModel([('Burglary', 'Alarm'),
 # because we do not name the cardinality in this example we are
 # only using numbers as a stand-in.
 
-cpd_burglary = TabularCPD(
+cpd_exercise = TabularCPD(
     variable='Burglary',
     variable_card=2,
     values=[[.999], [0.001]])
 
 
-cpd_earthquake = TabularCPD(
+cpd_smokes = TabularCPD(
     variable='Earthquake', variable_card=2,
     values=[[0.998], [0.002]])
 
@@ -58,7 +58,7 @@ cpd_earthquake = TabularCPD(
 # use of the evidence and evidence_card allows us to set the
 # parent information.
 
-cpd_alarm = TabularCPD(
+cpd_bp = TabularCPD(
     variable='Alarm', variable_card=2,
     values=[[0.999, 0.71, 0.06, 0.05],
             [0.001, 0.29, 0.94, 0.95]],
