@@ -22,7 +22,7 @@ GloveModel = gensim.downloader.load('glove-twitter-50')
 
 # And now we can do some simple synonym or similarity lookup
 # based upon the text.
-print(GloveModel.most_similar("flemish"))
+print(GloveModel.most_similar("cat"))
 
 
 # And given a sequence of words print out the most similar for each.

@@ -4,6 +4,7 @@ import nltk
 from nltk.tokenize import TweetTokenizer 
 from nltk.corpus import stopwords
 import gensim
+import gensim.downloader
 
 
 nationalParks = 'https://en.wikipedia.org/wiki/List_of_national_parks_of_the_United_States'
@@ -44,6 +45,8 @@ useLess.append('(')
 useLess.append(')')
 useLess.append('[')
 useLess.append(']')
+useLess.append('``')
+useLess.append("''")
 for word in stopwords.words('english'):
   useLess.append(word)
   print(word)
@@ -60,5 +63,13 @@ Model = gensim.models.Word2Vec(dataset, min_count=2)
 print('############################################################')
 print(Model.wv.key_to_index)
 
+top5 = list(Model.wv.key_to_index.keys())[0:100]
+print(top5)
+
+for top in top5:
+  print(top + ' : ' + Model.wv.most_similar(top)[0][0])
+
 vector= Model.wv['mountains']
-print(vector)
+
+
+gensim.downloader.info()['models'].keys()
