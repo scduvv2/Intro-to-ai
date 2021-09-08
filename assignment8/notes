@@ -1,0 +1,7 @@
+load 2-3 documents.
+remove stop words and count the frequency 
+bygram frequency -- two words together Ex. "it was" ignore space and pancuation.
+calculate the probability of all the words and bygrams
+create sentences : choose a bygram randomly --then pick the second word and all the bygrams that are with that word as first ( weighted by probability of those). do that for 5 times
+
+what are the word vectors and find the cosine between the two documents. 
