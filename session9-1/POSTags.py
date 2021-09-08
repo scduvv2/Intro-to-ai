@@ -10,16 +10,21 @@
 # Imports
 # -----------------------------------
 import nltk
-
-
+import requests
+from bs4 import BeautifulSoup
+from collections import defaultdict
+from nltk.corpus import stopwords
+import nltk
+nltk.download('gutenberg')
+nltk.download('averaged_perceptron_tagger')
 
 # Working Code
 # -----------------------------------
 # First we will load a basic document from an existing nltk dataset.
 # In this case we will use Jane Austen's Emma as a basic text.
-#print(nltk.corpus.gutenberg.fileids())
+print(nltk.corpus.gutenberg.fileids())
 EmmaWords = nltk.corpus.gutenberg.words(fileids="austen-emma.txt")
-#print(EmmaWords)
+print(EmmaWords)
 
 
 
@@ -103,12 +108,47 @@ def makeDocVec(DocTokens):
             
     return(DocSum)
 
+# TODO
+# import at least two web pages and make the text from them readable
+nationalParks = 'https://en.wikipedia.org/wiki/List_of_national_parks_of_the_United_States'
+cdc_myths = 'https://www.cdc.gov/coronavirus/2019-ncov/vaccines/facts.html'
 
+nationalParksReq = requests.get(nationalParks)
+cdc_mythsReq = requests.get(cdc_myths)
+
+
+def tokenize_request(request: requests.request):
+    SoupText_Req = BeautifulSoup(
+        request.text, features="lxml")
+    PageText_Req = SoupText_Req.get_text()
+
+    sentence_detector = nltk.data.load('tokenizers/punkt/english.pickle')
+
+    Words = nltk.tokenize.word_tokenize(PageText_Req.strip())
+
+    stopWords = set(stopwords.words('english'))
+
+    otherGarbage = ['.', ',', ')', '(', '[', ']',
+                    '/', '``', '\'\'', '^', '*', ';', '-', ':', '°F', '°C',
+                    'AfrikaansالعربيةAzərbaycancaБългарскиČeštinaDanskDeutschEestiEspañolEsperantoفارسیFøroysktFrançais한국어HrvatskiÍslenskaItalianoעבריתქართულიLietuviųമലയാളംNederlands日本語Norsk', 'bokmålPolskiRuna', 'SimiРусскийSimple', 'EnglishSlovenčinaСрпски']
+    cleanWords = []
+    for word in Words:
+        if word.lower() not in stopWords and word not in otherGarbage:
+            cleanWords.append(word.lower())
+    return cleanWords
+
+
+parks_dataset = tokenize_request(nationalParksReq)
+cdc_dataset = tokenize_request(cdc_mythsReq)
+parks_dataset_TaggedData = nltk.pos_tag(parks_dataset)
+cdc_dataset_TaggedData = nltk.pos_tag(cdc_dataset)
+parks_dataset_NounTokens = getNouns(parks_dataset_TaggedData)
+cdc_dataset_NounTokens = getNouns(cdc_dataset_TaggedData)
 # Now if you do the above for two documents you can just compare
 # them using the basic cosine similarity function.
-Doc1Sum = makeDocVec(NounTokens)
+Doc1Sum = makeDocVec(parks_dataset_NounTokens)
 print(Doc1Sum)
-Doc2Sum = makeDocVec(NounTokens)
+Doc2Sum = makeDocVec(cdc_dataset_NounTokens)
 print(Doc2Sum)
 
 
